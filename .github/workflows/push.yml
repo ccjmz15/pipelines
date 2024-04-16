@@ -23,31 +23,6 @@ permissions:
 
 jobs:
 
-  lint:
-
-    runs-on: windows-latest
-    steps:
-    - name: RunLint
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: echo LINT
-
-  test:
-    needs: [build, lint]
-    runs-on: windows-latest
-
-    steps:
-
-    - name: Setup VSTest.exe
-      uses: Malcolmnixon/Setup-VSTest@v4
-
-    - name: RunTests
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: VSTest.Console.exe x64\Release\UnitTest1.dll
-
-
-
-
-
   build:
     runs-on: windows-latest
 
@@ -73,3 +48,25 @@ jobs:
         name: my-artifact
         path: x64\Release\ # or path/to/artifact
         if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to 'warn'
+
+
+  lint:
+
+    runs-on: windows-latest
+    steps:
+    - name: RunLint
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: echo LINT
+
+  test:
+    needs: [build, lint]
+    runs-on: windows-latest
+
+    steps:
+
+    - name: Setup VSTest.exe
+      uses: Malcolmnixon/Setup-VSTest@v4
+
+    - name: RunTests
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: VSTest.Console.exe x64\Release\UnitTest1.dll
